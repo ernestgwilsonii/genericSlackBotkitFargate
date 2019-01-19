@@ -92,7 +92,7 @@ const { chatOpsLogger } = require('./lib/chatOpsLogger');
                     chatOpsLogger(message);
                 } catch (err) {
                     console.error(err);
-                    let errMsg = ":disappointed: Bummer... " + err;
+                    let errMsg = ":disappointed: Bummer...\n```" + err + "```";
                     bot.reply(message, errMsg);
                 }
             })();
