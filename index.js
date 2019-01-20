@@ -76,6 +76,7 @@ let debug = false;
                         let reply = `Hello ${firstName} ${botHelp_bot_direct_mention}`;
                         bot.reply(message, reply);
                         // Log the interaction
+                        message.logLevel = "INFORMATIONAL";
                         message.personDetails = personDetails;
                         message.chatOpsCommand = chatOpsCommand;
                         message.reply = reply;
@@ -87,6 +88,7 @@ let debug = false;
                         let reply = `Hello ${firstName} ${botHelp_bot_direct_message}`;
                         bot.reply(message, reply);
                         // Log the interaction
+                        message.logLevel = "INFORMATIONAL";
                         message.personDetails = personDetails;
                         message.chatOpsCommand = chatOpsCommand;
                         message.reply = reply;
@@ -116,6 +118,7 @@ let debug = false;
                         let reply = `Hello ${firstName} ${botHelp_network_direct_mention}`;
                         bot.reply(message, reply);
                         // Log the interaction
+                        message.logLevel = "INFORMATIONAL";
                         message.personDetails = personDetails;
                         message.chatOpsCommand = chatOpsCommand;
                         message.reply = reply;
@@ -127,6 +130,7 @@ let debug = false;
                         let reply = `Hello ${firstName} ${botHelp_network_direct_message}`;
                         bot.reply(message, reply);
                         // Log the interaction
+                        message.logLevel = "INFORMATIONAL";
                         message.personDetails = personDetails;
                         message.chatOpsCommand = chatOpsCommand;
                         message.reply = reply;
@@ -157,6 +161,7 @@ let debug = false;
                         let reply = `Hello ${firstName} ${botHelp_direct_mention}`;
                         bot.reply(message, reply);
                         // Log the interaction
+                        message.logLevel = "INFORMATIONAL";
                         message.personDetails = personDetails;
                         message.chatOpsCommand = chatOpsCommand;
                         message.reply = reply;
@@ -168,6 +173,7 @@ let debug = false;
                         let reply = `Hello ${firstName} ${botHelp_direct_message}`;
                         bot.reply(message, reply);
                         // Log the interaction
+                        message.logLevel = "INFORMATIONAL";
                         message.personDetails = personDetails;
                         message.chatOpsCommand = chatOpsCommand;
                         message.reply = reply;

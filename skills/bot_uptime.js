@@ -55,6 +55,7 @@ module.exports = function (controller) {
                 bot.reply(message, reply);
 
                 // Log the interaction
+                message.logLevel = "INFORMATIONAL";
                 message.personDetails = personDetails;
                 message.chatOpsCommand = chatOpsCommand;
                 message.reply = reply;
