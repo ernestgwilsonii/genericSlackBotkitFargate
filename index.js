@@ -3,6 +3,7 @@ const Botkit = require('botkit');
 const { getAwsSecrets } = require('./lib/getAwsSecrets');
 const { slackGetUsersInfo } = require('./lib/slackGetUsersInfo');
 const { chatOpsLogger } = require('./lib/chatOpsLogger');
+let debug = false;
 ////////////////////////////////////////////////////////////////////////////////
 (async function () {
     try {
@@ -51,25 +52,89 @@ const { chatOpsLogger } = require('./lib/chatOpsLogger');
             console.log("npm install");
             console.log("export slackToken=YourSlackToken node index.js");
             console.log("Get a Slack token here: https://my.slack.com/apps/new/A0F7YS25R-bots");
-        }
+        };
+        ////////////////////////////////////////////////////////////////////////////////
 
-        ////////////////////
-        // help internet //
-        ///////////////////
-        controller.hears(['help internet'], 'direct_message,direct_mention', (bot, message) => {
-            const { botHelp_internet } = require('./help/botHelp_internet');
+
+        ////////////////////////////////////////////////////////////////////////////////
+        // HELP MENU SECTIONS //
+        ////////////////////////
+
+        //////////////
+        // help bot //
+        //////////////
+        controller.hears(['help bot'], 'direct_message,direct_mention', (bot, message) => {
+            let chatOpsCommand = "help bot"; // Set this value for accurate reporting
             (async function () {
                 try {
                     let personDetails = await slackGetUsersInfo(message);
-                    //console.log("personDetails: " + JSON.stringify(personDetails, null, 2));
-                    //let slackUsername = personDetails.user.name;
+                    if (debug) { console.log("personDetails: " + JSON.stringify(personDetails, null, 2)); };
                     let firstName = personDetails.user.profile.first_name;
-                    let reply = `Hello ${firstName} ${botHelp_internet}`;
-                    bot.reply(message, reply);
-                    chatOpsLogger(message);
+                    // direct_mention
+                    if (message.type === "direct_mention") {
+                        const { botHelp_bot_direct_mention } = require('./help/botHelp_bot');
+                        let reply = `Hello ${firstName} ${botHelp_bot_direct_mention}`;
+                        bot.reply(message, reply);
+                        // Log the interaction
+                        message.personDetails = personDetails;
+                        message.chatOpsCommand = chatOpsCommand;
+                        message.reply = reply;
+                        chatOpsLogger(message);
+                    }
+                    // direct_message
+                    if (message.type === "direct_message") {
+                        const { botHelp_bot_direct_message } = require('./help/botHelp_bot');
+                        let reply = `Hello ${firstName} ${botHelp_bot_direct_message}`;
+                        bot.reply(message, reply);
+                        // Log the interaction
+                        message.personDetails = personDetails;
+                        message.chatOpsCommand = chatOpsCommand;
+                        message.reply = reply;
+                        chatOpsLogger(message);
+                    }
                 } catch (err) {
                     console.error(err);
-                    let errMsg = ":disappointed: Bummer... " + err;
+                    let errMsg = ":disappointed: Bummer...\n```" + err + "```";
+                    bot.reply(message, errMsg);
+                }
+            })();
+        });
+
+        //////////////////
+        // help network //
+        //////////////////
+        controller.hears(['help network'], 'direct_message,direct_mention', (bot, message) => {
+            let chatOpsCommand = "help network"; // Set this value for accurate reporting
+            (async function () {
+                try {
+                    let personDetails = await slackGetUsersInfo(message);
+                    if (debug) { console.log("personDetails: " + JSON.stringify(personDetails, null, 2)); };
+                    let firstName = personDetails.user.profile.first_name;
+                    // direct_mention
+                    if (message.type === "direct_mention") {
+                        const { botHelp_network_direct_mention } = require('./help/botHelp_network');
+                        let reply = `Hello ${firstName} ${botHelp_network_direct_mention}`;
+                        bot.reply(message, reply);
+                        // Log the interaction
+                        message.personDetails = personDetails;
+                        message.chatOpsCommand = chatOpsCommand;
+                        message.reply = reply;
+                        chatOpsLogger(message);
+                    }
+                    // direct_message
+                    if (message.type === "direct_message") {
+                        const { botHelp_network_direct_message } = require('./help/botHelp_network');
+                        let reply = `Hello ${firstName} ${botHelp_network_direct_message}`;
+                        bot.reply(message, reply);
+                        // Log the interaction
+                        message.personDetails = personDetails;
+                        message.chatOpsCommand = chatOpsCommand;
+                        message.reply = reply;
+                        chatOpsLogger(message);
+                    }
+                } catch (err) {
+                    console.error(err);
+                    let errMsg = ":disappointed: Bummer...\n```" + err + "```";
                     bot.reply(message, errMsg);
                 }
             })();
@@ -80,16 +145,34 @@ const { chatOpsLogger } = require('./lib/chatOpsLogger');
         ///////////////////////////////////////////////////
         // Catch "all" HELP function  - For "help" or anything unknown sent to the bot!
         controller.on('direct_message,direct_mention', (bot, message) => {
-            const { botHelp } = require('./help/botHelp');
+            let chatOpsCommand = "help"; // Set this value for accurate reporting
             (async function () {
                 try {
                     let personDetails = await slackGetUsersInfo(message);
-                    //console.log("personDetails: " + JSON.stringify(personDetails, null, 2));
-                    //let slackUsername = personDetails.user.name;
+                    if (debug) { console.log("personDetails: " + JSON.stringify(personDetails, null, 2)); };
                     let firstName = personDetails.user.profile.first_name;
-                    let reply = `Hello ${firstName} ${botHelp}`;
-                    bot.reply(message, reply);
-                    chatOpsLogger(message);
+                    // direct_mention
+                    if (message.type === "direct_mention") {
+                        const { botHelp_direct_mention } = require('./help/botHelp');
+                        let reply = `Hello ${firstName} ${botHelp_direct_mention}`;
+                        bot.reply(message, reply);
+                        // Log the interaction
+                        message.personDetails = personDetails;
+                        message.chatOpsCommand = chatOpsCommand;
+                        message.reply = reply;
+                        chatOpsLogger(message);
+                    }
+                    // direct_message
+                    if (message.type === "direct_message") {
+                        const { botHelp_direct_message } = require('./help/botHelp');
+                        let reply = `Hello ${firstName} ${botHelp_direct_message}`;
+                        bot.reply(message, reply);
+                        // Log the interaction
+                        message.personDetails = personDetails;
+                        message.chatOpsCommand = chatOpsCommand;
+                        message.reply = reply;
+                        chatOpsLogger(message);
+                    }
                 } catch (err) {
                     console.error(err);
                     let errMsg = ":disappointed: Bummer...\n```" + err + "```";
